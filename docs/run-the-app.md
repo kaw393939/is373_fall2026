@@ -38,7 +38,7 @@ From the project folder:
 docker compose up --build
 ```
 
-The first run downloads dependencies and can take a few minutes. When Next.js reports **Ready**, open [localhost:3000](http://localhost:3000) in your normal browser. You should see **Hello, world.** Leave the terminal running.
+The first run downloads dependencies and can take a few minutes. When Next.js reports **Ready**, open [localhost:3000](http://localhost:3000) in your normal browser. You should see **BUILD SOMETHING YOURS.** Leave the terminal running.
 
 Edit `src/app/page.tsx` and save; the page updates automatically.
 

@@ -9,3 +9,7 @@ next-env.d.ts
 .DS_Store
 *.log
 .sites-runtime/
+
+# Browser test artifacts
+playwright-report/
+test-results/
