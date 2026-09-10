@@ -1,0 +1,26 @@
+name: is373-fall2026
+services:
+  web:
+    build:
+      context: .
+      target: development
+    ports:
+      - "127.0.0.1:${APP_PORT:-3000}:3000"
+    environment:
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
+    # Refresh the isolated Linux dependencies when the lockfile changes.
+    command: sh -c "npm ci && npm run dev"
+    init: true
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+volumes:
+  node_modules:
+  next_cache:

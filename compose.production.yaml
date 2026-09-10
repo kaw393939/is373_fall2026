@@ -1,0 +1,14 @@
+name: is373-fall2026-production
+services:
+  web:
+    build:
+      context: .
+      target: production
+    ports:
+      - "127.0.0.1:${APP_PORT:-3000}:3000"
+    init: true
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

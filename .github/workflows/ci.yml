@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Build and start production container
+        run: docker compose -f compose.production.yaml up --build -d --wait --wait-timeout 120
+      - name: Smoke test
+        run: |
+          curl --fail http://localhost:3000/
+          curl --fail http://localhost:3000/api/health
+      - name: Container logs
+        if: failure()
+        run: docker compose -f compose.production.yaml logs
+      - name: Clean up
+        if: always()
+        run: docker compose -f compose.production.yaml down
